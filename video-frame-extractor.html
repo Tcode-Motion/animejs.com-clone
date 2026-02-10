@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Frame Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .controls {
+            margin-bottom: 20px;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #video {
+            max-width: 100%;
+            margin-bottom: 20px;
+            border: 2px solid #444;
+        }
+        .frames-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .frame-item {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .frame-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .frame-info {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        .status {
+            padding: 10px;
+            background: #333;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        input[type="number"] {
+            padding: 8px;
+            margin: 5px;
+            background: #333;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Video Frame Extractor</h1>
+    
+    <div class="controls">
+        <video id="video" controls>
+            <source src="assets/videos/learn-animejs-course-teaser.mp4" type="video/mp4">
+        </video>
+        
+        <div class="status" id="status">Video loaded. Ready to extract frames.</div>
+        
+        <div>
+            <label>Number of frames to extract: 
+                <input type="number" id="frameCount" value="20" min="1" max="100">
+            </label>
+        </div>
+        
+        <button onclick="extractFrames()">Extract Frames</button>
+        <button onclick="clearFrames()">Clear Frames</button>
+        <button onclick="downloadAllFrames()">Download All Frames</button>
+    </div>
+    
+    <div class="frames-grid" id="framesContainer"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const framesContainer = document.getElementById('framesContainer');
+        const status = document.getElementById('status');
+        let extractedFrames = [];
+
+        video.addEventListener('loadedmetadata', () => {
+            status.textContent = `Video loaded: ${video.duration.toFixed(2)}s duration, ${video.videoWidth}x${video.videoHeight}`;
+        });
+
+        async function extractFrames() {
+            const frameCount = parseInt(document.getElementById('frameCount').value);
+            framesContainer.innerHTML = '';
+            extractedFrames = [];
+            
+            const duration = video.duration;
+            const interval = duration / (frameCount + 1);
+            
+            status.textContent = 'Extracting frames...';
+            
+            for (let i = 1; i <= frameCount; i++) {
+                const time = interval * i;
+                const frameData = await captureFrame(time);
+                
+                if (frameData) {
+                    extractedFrames.push(frameData);
+                    displayFrame(frameData, i);
+                }
+                
+                status.textContent = `Extracted ${i}/${frameCount} frames...`;
+            }
+            
+            status.textContent = `Successfully extracted ${frameCount} frames!`;
+        }
+
+        function captureFrame(time) {
+            return new Promise((resolve) => {
+                video.currentTime = time;
+                
+                video.onseeked = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        resolve({
+                            url: url,
+                            time: time,
+                            blob: blob,
+                            dataUrl: canvas.toDataURL('image/png')
+                        });
+                    }, 'image/png');
+                };
+            });
+        }
+
+        function displayFrame(frameData, index) {
+            const frameDiv = document.createElement('div');
+            frameDiv.className = 'frame-item';
+            
+            const img = document.createElement('img');
+            img.src = frameData.url;
+            
+            const info = document.createElement('div');
+            info.className = 'frame-info';
+            info.textContent = `Frame ${index} - Time: ${frameData.time.toFixed(2)}s`;
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = 'Download';
+            downloadBtn.onclick = () => downloadFrame(frameData, index);
+            
+            frameDiv.appendChild(img);
+            frameDiv.appendChild(info);
+            frameDiv.appendChild(downloadBtn);
+            
+            framesContainer.appendChild(frameDiv);
+        }
+
+        function downloadFrame(frameData, index) {
+            const a = document.createElement('a');
+            a.href = frameData.dataUrl;
+            a.download = `frame-${String(index).padStart(3, '0')}-${frameData.time.toFixed(2)}s.png`;
+            a.click();
+        }
+
+        function downloadAllFrames() {
+            extractedFrames.forEach((frameData, index) => {
+                setTimeout(() => {
+                    downloadFrame(frameData, index + 1);
+                }, index * 100);
+            });
+        }
+
+        function clearFrames() {
+            framesContainer.innerHTML = '';
+            extractedFrames.forEach(frame => URL.revokeObjectURL(frame.url));
+            extractedFrames = [];
+            status.textContent = 'Frames cleared.';
+        }
+    </script>
+</body>
+</html>

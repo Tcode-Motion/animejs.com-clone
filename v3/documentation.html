@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Documentation | anime.js</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="anime.js">
+  <meta property="og:url" content="https://animejs.com">
+  <meta property="og:description" content="Javascript animation engine">
+  <meta property="og:image" content="https://animejs.com/documentation/assets/img/social-media-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@juliangarnier">
+  <meta name="twitter:creator" content="@juliangarnier">
+  <meta name="twitter:title" content="anime.js">
+  <meta name="twitter:description" content="Javascript animation engine">
+  <meta name="twitter:image" content="https://animejs.com/documentation/assets/img/social-media-image.png">
+
+  <link rel="apple-touch-icon-precomposed" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" >
+
+  <link href="//cloud.typenetwork.com/projects/2160/fontface.css/" rel="stylesheet" type="text/css">
+
+  <link href="assets/css/animejs.css" rel="stylesheet">
+  <link href="assets/css/anime-theme.css" rel="stylesheet">
+  <link href="assets/css/documentation.css" rel="stylesheet">
+  <link href="assets/css/v4.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-16LTPBS8QC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-16LTPBS8QC');
+  </script>
+  <script src="../lib/anime.min.js"></script>
+</head>
+<body>
+  <div id="top-banner">
+    <button id="close-banner">✕</button>
+    <p>This version is outdated.</p> <a id="banner-cta" href="https://animejs.com" target="_blank">Use <span>Anime.js</span> v4 instead</a>
+  </div>
+  <div class="content">
+    <header id="docs-header" class="header">
+    <a class="logo" href="https://github.com/juliangarnier/anime/">
+      <img class="anime-mini-logo" src="assets/img/anime-mini-logo.svg" />
+      <span class="version-number"></span>
+    </a>
+    </header>
+    <section class="pane sidebar">
+      <nav class="navigation"></nav>
+      <div class="sidebar-info">
+        <a class="github-button" href="https://github.com/juliangarnier/anime/archive/master.zip" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-cloud-download" aria-label="Download juliangarnier/anime on GitHub">Download</a>
+        <a class="github-button" href="https://github.com/juliangarnier/anime" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-show-count="true" aria-label="Star juliangarnier/anime on GitHub">Star</a>
+      </div>
+    </section>
+    <section class="pane demos">
+
+<!-- TARGETS -->
+<article id="targets" class="color-targets">
+  <header>
+    <h2 class="demos-title">Targets</h2>
+  </header>
+
+<div id="cssSelector" class="demo">
+  <h3 class="demo-title">CSS Selector</h3>
+  <div class="demo-description">
+    <p>Can be any CSS selector.</p>
+    <p class="bubble warning">Pseudo elements can't be targeted using JavaScript.</p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>String</td>
+        <td><code>null</code></td>
+        <td><code>targets: '.item'</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content css-selector-demo">
+    <div class="line">
+      <div class="square shadow"></div>
+      <div class="square el"></div>
+    </div>
+  </div>
+  <script>var cssSelector = function() {
+/*DEMO*/
+anime({
+  targets: '.css-selector-demo .el',
+  translateX: 250
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="domNode" class="demo">
+  <h3 class="demo-title">DOM Node / NodeList</h3>
+  <div class="demo-description">
+    <p>
+      Can be any DOM Node or NodeList.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>DOM Node</td>
+        <td><code>null</code></td>
+        <td><code>targets: el.querySelector('.item')</code></td>
+      </tr>
+      <tr>
+        <td>NodeList</td>
+        <td><code>null</code></td>
+        <td><code>targets: el.querySelectorAll('.item')</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content dom-node-demo">
+    <div class="line">
+      <div class="small square shadow"></div>
+      <div class="small square el"></div>
+    </div>
+    <div class="line">
+      <div class="small square shadow"></div>
+      <div class="small square el"></div>
+    </div>
+    <div class="line">
+      <div class="small square shadow"></div>
+      <div class="small square el"></div>
+    </div>
+  </div>
+  <script>var domNode = function() {
+/*DEMO*/
+var elements = document.querySelectorAll('.dom-node-demo .el');
+
+anime({
+  targets: elements,
+  translateX: 270
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="JSobject" class="demo">
+  <h3 class="demo-title">JavaScript Object</h3>
+  <div class="demo-description">
+    <p>
+      A JavaScript Object with at least one property containing a numerical value.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Object</td>
+        <td><code>null</code></td>
+        <td><code>targets: myObjectProp</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content">
+    <pre class="battery-log">{"charged":"0%","cycles":120}</pre>
+  </div>
+  <script>var JSobject = function() {
+/*DEMO*/
+var logEl = document.querySelector('.battery-log');
+
+var battery = {
+  charged: '0%',
+  cycles: 120
+}
+
+anime({
+  targets: battery,
+  charged: '100%',
+  cycles: 130,
+  round: 1,
+  easing: 'linear',
+  update: function() {
+    logEl.innerHTML = JSON.stringify(battery);
+  }
+});
+/*DEMO*/
+}
+  </script>
+<script>
+</script>
+</div>
+
+<div id="array" class="demo">
+  <h3 class="demo-title">Array</h3>
+  <div class="demo-description">
+    <p>
+      An array containing multiple targets.
+    </p>
+    <p class="bubble info">
+      Accepts mixed types. E.g. <code>['.el', domNode, jsObject]</code>
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Array</td>
+        <td><code>null</code></td>
+        <td><code>targets: ['.item', el.getElementById('#thing')]</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content mixed-array-demo">
+    <div class="line">
+      <div class="square shadow"></div>
+      <div class="square el el-01"></div>
+    </div>
+    <div class="line">
+      <div class="square shadow"></div>
+      <div class="square el el-02"></div>
+    </div>
+    <div class="line">
+      <div class="square shadow"></div>
+      <div class="square el el-03"></div>
+    </div>
+  </div>
+  <script>var array = function() {
+/*DEMO*/
+var el = document.querySelector('.mixed-array-demo .el-01');
+
+anime({
+  targets: [el, '.mixed-array-demo .el-02', '.mixed-array-demo .el-03'],
+  translateX: 250
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+</article>
+<!-- -->
+
+<!-- ANIMATABLE PROPERTIES -->
+<article id="properties" class="color-properties">
+<header>
+  <h2 class="demos-title">Properties</h2>
+</header>
+
+<div id="cssProperties" class="demo">
+  <h3 class="demo-title">CSS Properties</h3>
+  <div class="demo-description">
+    <p>
+      Any CSS properties can be animated.
+    </p>
+    <p class="bubble warning">
+      Most CSS properties will cause layout changes or repaint, and will result in choppy animation.
+      Prioritize opacity and CSS transforms as much as possible.
+    </p>
+    <p>More details about accepted values in the <a class="color-values" href="#unitlessValue">values</a> section.</p>
+    <table>
+      <thead>
+        <td>Example</td>
+        <td>value</td>
+      </thead>
+      <tr>
+        <td><code>opacity</code></td>
+        <td><code>.5</code></td>
+      </tr>
+      <tr>
+        <td><code>left</code></td>
+        <td><code>'100px'</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content css-prop-demo">
+    <div class="large square shadow"></div>
+    <div class="large square el"></div>
+  </div>
+  <script>var cssProperties = function() {
+/*DEMO*/
+anime({
+  targets: '.css-prop-demo .el',
+  left: '240px',
+  backgroundColor: '#FFF',
+  borderRadius: ['0%', '50%'],
+  easing: 'easeInOutQuad'
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="CSStransforms" class="demo">
+  <h3 class="demo-title">CSS Transforms</h3>
+  <div class="demo-description">
+    <p>
+      Animate CSS transforms properties individually.
+    </p>
+    <p class="bubble info">
+      It's possible to specify different timing for each transforms properties, more details in the <a class="color-prop-params" href="#specificPropParameters">specific property parameters</a> section.
+    </p>
+    <p>More details about accepted values in the <a class="color-values" href="#unitlessValue">values</a> section.</p>
+    <table>
+      <thead>
+        <td>Valid properties</td>
+        <td>Default unit</td>
+      </thead>
+      <tr><td><code>'translateX'</code></td><td><code>'px'</code></td></tr>
+      <tr><td><code>'translateY'</code></td><td><code>'px'</code></td></tr>
+      <tr><td><code>'translateZ'</code></td><td><code>'px'</code></td></tr>
+      <tr><td><code>'rotate'</code></td><td><code>'deg'</code></td></tr>
+      <tr><td><code>'rotateX'</code></td><td><code>'deg'</code></td></tr>
+      <tr><td><code>'rotateY'</code></td><td><code>'deg'</code></td></tr>
+      <tr><td><code>'rotateZ'</code></td><td><code>'deg'</code></td></tr>
+      <tr><td><code>'scale'</code></td><td><code>—</code></td></tr>
+      <tr><td><code>'scaleX'</code></td><td><code>—</code></td></tr>
+      <tr><td><code>'scaleY'</code></td><td><code>—</code></td></tr>
+      <tr><td><code>'scaleZ'</code></td><td><code>—</code></td></tr>
+      <tr><td><code>'skew'</code></td><td><code>'deg'</code></td></tr>
+      <tr><td><code>'skewX'</code></td><td><code>'deg'</code></td></tr>
+      <tr><td><code>'skewY'</code></td><td><code>'deg'</code></td></tr>
+      <tr><td><code>'perspective'</code></td><td><code>'px'</code></td></tr>
+    </table>
+  </div>
+  <div class="demo-content css-transforms-demo">
+    <div class="square shadow"></div>
+    <div class="square el"></div>
+  </div>
+  <script>var CSStransforms = function() {
+/*DEMO*/
+anime({
+  targets: '.css-transforms-demo .el',
+  translateX: 250,
+  scale: 2,
+  rotate: '1turn'
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="JSobjProp" class="demo">
+  <h3 class="demo-title">Object properties</h3>
+  <div class="demo-description">
+    <p>
+      Any Object property containing a numerical value can be animated.<br>
+      More details about accepted values in the <a class="color-values" href="#unitlessValue">values</a> section.
+    </p>
+    <table>
+      <thead>
+        <td>Example</td>
+        <td>value</td>
+      </thead>
+      <tr>
+        <td><code>prop1</code></td>
+        <td><code>50</code></td>
+      </tr>
+      <tr>
+        <td><code>'prop2'</code></td>
+        <td><code>'100%'</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content">
+    <pre class="js-object-log">{"prop1":0,"prop2":"0%"}</pre>
+  </div>
+  <script>var JSobjProp = function() {
+/*DEMO*/
+var objPropLogEl = document.querySelector('.js-object-log');
+
+var myObject = {
+  prop1: 0,
+  prop2: '0%'
+}
+
+anime({
+  targets: myObject,
+  prop1: 50,
+  prop2: '100%',
+  easing: 'linear',
+  round: 1,
+  update: function() {
+    objPropLogEl.innerHTML = JSON.stringify(myObject);
+  }
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="domAttr" class="demo">
+  <h3 class="demo-title">DOM Attributes</h3>
+  <div class="demo-description">
+    <p>
+      Any DOM Attributes containing a numerical value can be animated.<br>
+      More details about accepted values in the <a class="color-values" href="#unitlessValue">values</a> section.
+    </p>
+    <table>
+      <thead>
+        <td>Example</td>
+        <td>value</td>
+      </thead>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>1000</code></td>
+      </tr>
+      <tr>
+        <td><code>volume</code></td>
+        <td><code>0</code></td>
+      </tr>
+      <tr>
+        <td><code>data-custom</code></td>
+        <td><code>'3 dogs'</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content dom-attribute-demo">
+    <input class="el text-output" value="0"></input>
+  </div>
+  <script>var domAttr = function() {
+/*DEMO*/
+anime({
+  targets: '.dom-attribute-demo input',
+  value: [0, 1000],
+  round: 1,
+  easing: 'easeInOutExpo'
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="svgAttr" class="demo">
+  <h3 class="demo-title">SVG Attributes</h3>
+  <div class="demo-description">
+    <p>
+      Like any other <a class="color-properties" href="#domAttr">DOM attributes</a>, all SVG attributes containing at least one numerical value can be animated.<br>
+      More details about accepted values in the <a class="color-values" href="#unitlessValue">values</a> section and SVG animation in the <a class="color-svg" href="#motionPath">SVG</a> section.
+    </p>
+    <table>
+      <thead>
+        <td>Example</td>
+        <td>value</td>
+      </thead>
+      <tr>
+        <td><code>points</code></td>
+        <td><code>'64 68.64 8.574 100 63.446 67.68 64 4 64.554 67.68 119.426 100'</code></td>
+      </tr>
+      <tr>
+        <td><code>scale</code></td>
+        <td><code>1</code></td>
+      </tr>
+      <tr>
+        <td><code>baseFrequency</code></td>
+        <td><code>0</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content align-center svg-attributes-demo">
+<svg width="128" height="128" viewBox="0 0 128 128">
+  <filter id="displacementFilter">
+    <feTurbulence type="turbulence" baseFrequency=".05" numOctaves="2" result="turbulence"/>
+    <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="15" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <polygon points="64 68.64 8.574 100 63.446 67.68 64 4 64.554 67.68 119.426 100" style="filter: url(#displacementFilter)" fill="currentColor"/>
+</svg>
+  </div>
+  <script>var svgAttr = function() {
+  // Needed to reset demo
+  var polyEl = document.querySelector('.svg-attributes-demo polygon');
+  var feTurbulenceEl = document.querySelector('feTurbulence');
+  var feDisplacementMap = document.querySelector('feDisplacementMap');
+  polyEl.setAttribute('points', '64 68.64 8.574 100 63.446 67.68 64 4 64.554 67.68 119.426 100');
+  feTurbulenceEl.setAttribute('baseFrequency', '.05');
+  feDisplacementMap.setAttribute('scale', '15');
+/*DEMO*/
+anime({
+  targets: ['.svg-attributes-demo polygon', 'feTurbulence', 'feDisplacementMap'],
+  points: '64 128 8.574 96 8.574 32 64 0 119.426 32 119.426 96',
+  baseFrequency: 0,
+  scale: 1,
+  loop: true,
+  direction: 'alternate',
+  easing: 'easeInOutExpo'
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+</article>
+<!-- -->
+
+<!-- PROPERTY PARAMETERS -->
+<article id="propertyParameters" class="color-prop-params">
+  <header>
+    <h2 class="demos-title">Property parameters</h2>
+  </header>
+
+<div id="duration" class="demo">
+  <h3 class="demo-title">Duration</h3>
+  <div class="demo-description">
+    <p>
+      Defines the duration in milliseconds of the animation.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Number</td>
+        <td><code>1000</code></td>
+        <td><code>3000</code></td>
+      </tr>
+      <tr>
+        <td>anime.stagger</td>
+        <td>See <a class="color-staggering" href="#staggeringBasics">staggering</a> section</td>
+        <td><code>anime.stagger(150)</code></td>
+      </tr>
+      <tr>
+        <td>Function</td>
+        <td>See <a class="color-prop-params" href="#functionBasedParameters">function based parameters</a> section</td>
+        <td><code>(el, i) => i * 150</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content duration-demo">
+    <div class="label">3000 ms</div>
+    <div class="square shadow"></div>
+    <div class="square el"></div>
+  </div>
+  <script>var duration = function() {
+/*DEMO*/
+anime({
+  targets: '.duration-demo .el',
+  translateX: 250,
+  duration: 3000
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="delay" class="demo">
+  <h3 class="demo-title">Delay</h3>
+  <div class="demo-description">
+    <p>
+      Defines the delay in milliseconds of the animation.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Number</td>
+        <td><code>0</code></td>
+        <td><code>1000</code></td>
+      </tr>
+      <tr>
+        <td>anime.stagger</td>
+        <td>See <a class="color-staggering" href="#staggeringBasics">staggering</a> section</td>
+        <td><code>anime.stagger(150)</code></td>
+      </tr>
+      <tr>
+        <td>Function</td>
+        <td>See <a class="color-prop-params" href="#functionBasedParameters">function based parameters</a> section</td>
+        <td><code>(el, i) => i * 150</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content delay-demo">
+    <div class="label">1000 ms</div>
+    <div class="square shadow"></div>
+    <div class="square el"></div>
+  </div>
+  <script>var delay = function() {
+/*DEMO*/
+anime({
+  targets: '.delay-demo .el',
+  translateX: 250,
+  delay: 1000
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="endDelay" class="demo">
+  <h3 class="demo-title">end delay</h3>
+  <div class="demo-description">
+    <p>
+      Adds some extra time in milliseconds at the end of the animation.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Number</td>
+        <td><code>0</code></td>
+        <td><code>1000</code></td>
+      </tr>
+      <tr>
+        <td>anime.stagger</td>
+        <td>See <a class="color-staggering" href="#staggeringBasics">staggering</a> section</td>
+        <td><code>anime.stagger(150)</code></td>
+      </tr>
+      <tr>
+        <td>Function</td>
+        <td>See <a class="color-prop-params" href="#functionBasedParameters">function based parameters</a> section</td>
+        <td><code>(el, i) => i * 150</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content end-delay-demo">
+    <div class="label">1000 ms</div>
+    <div class="square shadow"></div>
+    <div class="square el"></div>
+  </div>
+  <script>var endDelay = function() {
+/*DEMO*/
+anime({
+  targets: '.end-delay-demo .el',
+  translateX: 250,
+  endDelay: 1000,
+  direction: 'alternate'
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="easing" class="demo">
+  <h3 class="demo-title">Easing</h3>
+  <div class="demo-description">
+    <p>
+      Defines the timing function of the animation.
+    </p>
+    <p class="bubble info">
+      Check out the <a class="color-easings" href="#linearEasing">easings</a> section for a complete list of available easing and parameters.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>String</td>
+        <td><code>'easeOutElastic(1, .5)'</code></td>
+        <td><code>easing: 'easeInOutQuad'</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content easing-demo">
+    <div class="label">easeInOutExpo</div>
+    <div class="square shadow"></div>
+    <div class="square el"></div>
+  </div>
+  <script>var easing = function() {
+/*DEMO*/
+anime({
+  targets: '.easing-demo .el',
+  translateX: 250,
+  easing: 'easeInOutExpo'
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="round" class="demo">
+  <h3 class="demo-title">Round</h3>
+  <div class="demo-description">
+    <p>
+      Rounds up the value to x decimals.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Default</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Number</td>
+        <td><code>0</code></td>
+        <td><code>round: 10</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content">
+    <pre class="round-log">0</pre>
+  </div>
+  <script>var round = function() {
+/*DEMO*/
+var roundLogEl = document.querySelector('.round-log');
+
+anime({
+  targets: roundLogEl,
+  innerHTML: [0, 10000],
+  easing: 'linear',
+  round: 10 // Will round the animated value to 1 decimal
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="specificPropParameters" class="demo">
+  <h3 class="demo-title">Specific property parameters</h3>
+  <div class="demo-description">
+    <p>
+      Defines specific parameters to each property of the animation using an Object as value.<br>
+      Other properties that aren't specified in the Object are inheritted from the main animation.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Object</td>
+<td><code>rotate: {
+  value: 360,
+  duration: 1800,
+  easing: 'easeInOutSine'
+}</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content specific-prop-params-demo">
+    <div class="square shadow"></div>
+    <div class="square el"></div>
+  </div>
+  <script>var specificPropParameters = function() {
+/*DEMO*/
+anime({
+  targets: '.specific-prop-params-demo .el',
+  translateX: {
+    value: 250,
+    duration: 800
+  },
+  rotate: {
+    value: 360,
+    duration: 1800,
+    easing: 'easeInOutSine'
+  },
+  scale: {
+    value: 2,
+    duration: 1600,
+    delay: 800,
+    easing: 'easeInOutQuart'
+  },
+  delay: 250 // All properties except 'scale' inherit 250ms delay
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="functionBasedParameters" class="demo">
+  <h3 class="demo-title">Function based parameters</h3>
+  <div class="demo-description">
+    <p>
+      Get different values for every target and property of the animation.
+    </p>
+    <p>
+      The function accepts 3 arguments:
+    </p>
+    <table>
+      <thead>
+        <td>Arguments</td>
+        <td>Infos</td>
+      </thead>
+      <tr>
+        <td><code>target</code></td>
+        <td>The curent animated targeted element</td>
+      </tr>
+      <tr>
+        <td><code>index</code></td>
+        <td>The index of the animated targeted element</td>
+      </tr>
+      <tr>
+        <td><code>targetsLength</code></td>
+        <td>The total number of animated targets</td>
+      </tr>
+    </table>
+    <p class="bubble info">
+      See <a class="color-staggering" href="#staggeringBasics">staggering</a> section for easier values manipulation.
+    </p>
+  </div>
+  <div class="demo-content function-based-params-demo">
+    <div class="line">
+      <div class="small label">delay = 0 * 100</div>
+      <div class="small square shadow"></div>
+      <div class="small square el"></div>
+    </div>
+    <div class="line">
+      <div class="small label">delay = 1 * 100</div>
+      <div class="small square shadow"></div>
+      <div class="small square el"></div>
+    </div>
+    <div class="line">
+      <div class="small label">delay = 2 * 100</div>
+      <div class="small square shadow"></div>
+      <div class="small square el"></div>
+    </div>
+  </div>
+  <script>var functionBasedParameters = function() {
+/*DEMO*/
+anime({
+  targets: '.function-based-params-demo .el',
+  translateX: 270,
+  direction: 'alternate',
+  loop: true,
+  delay: function(el, i, l) {
+    return i * 100;
+  },
+  endDelay: function(el, i, l) {
+    return (l - i) * 100;
+  }
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+</article>
+<!-- -->
+
+<!-- ANIMATION PARAMETERS -->
+<article id="animationParameters" class="color-anim-params">
+  <header>
+    <h2 class="demos-title">Animation parameters</h2>
+  </header>
+
+<div id="direction" class="demo">
+  <h3 class="demo-title">Direction</h3>
+  <div class="demo-description">
+    <p>
+      Defines the direction of the animation.
+    </p>
+    <table>
+      <thead>
+        <td>Accepts</td>
+        <td>Infos</td>
+      </thead>
+      <tr>
+        <td><code>'normal'</code></td>
+        <td>Animation progress goes from 0 to 100%</td>
+      </tr>
+      <tr>
+        <td><code>'reverse'</code></td>
+        <td>Animation progress goes from 100% to 0%</td>
+      </tr>
+      <tr>
+        <td><code>'alternate'</code></td>
+        <td>Animation progress goes from 0% to 100% then goes back to 0%</td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content">
+    <div class="line">
+      <div class="label">normal</div>
+      <div class="square shadow"></div>
+      <div class="square el dir-normal"></div>
+    </div>
+    <div class="line">
+      <div class="label">reverse</div>
+      <div class="square shadow"></div>
+      <div class="square el dir-reverse"></div>
+    </div>
+    <div class="line">
+      <div class="label">alternate</div>
+      <div class="square shadow"></div>
+      <div class="square el dir-alternate"></div>
+    </div>
+  </div>
+  <script>var direction = function() {
+/*DEMO*/
+anime({
+  targets: '.dir-normal',
+  translateX: 250,
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.dir-reverse',
+  translateX: 250,
+  direction: 'reverse',
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.dir-alternate',
+  translateX: 250,
+  direction: 'alternate',
+  easing: 'easeInOutSine'
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="loop" class="demo">
+  <h3 class="demo-title">Loop</h3>
+  <div class="demo-description">
+    <p>
+      Defines the number of iterations of your animation.
+    </p>
+    <table>
+      <thead>
+        <td>Accepts</td>
+        <td>Infos</td>
+      </thead>
+      <tr>
+        <td><code>Number</code></td>
+        <td>The number of iterations</td>
+      </tr>
+      <tr>
+        <td><code>true</code></td>
+        <td>Loop indefinitely</td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content">
+    <div class="line">
+      <div class="small label">normal 3 times</div>
+      <div class="small square shadow"></div>
+      <div class="small square el loop"></div>
+    </div>
+    <div class="line">
+      <div class="small label">reverse 3 times</div>
+      <div class="small square shadow"></div>
+      <div class="small square el loop-reverse"></div>
+    </div>
+    <div class="line">
+      <div class="small label">alternate 3 times</div>
+      <div class="small square shadow"></div>
+      <div class="small square el loop-alternate"></div>
+    </div>
+    <div class="line">
+      <div class="small label">normal inifinite</div>
+      <div class="small square shadow"></div>
+      <div class="small square el loop-infinity"></div>
+    </div>
+    <div class="line">
+      <div class="small label">inifinite reverse</div>
+      <div class="small square shadow"></div>
+      <div class="small square el loop-reverse-infinity"></div>
+    </div>
+    <div class="line">
+      <div class="small label">inifinite alternate</div>
+      <div class="small square shadow"></div>
+      <div class="small square el loop-alternate-infinity"></div>
+    </div>
+  </div>
+  <script>var loop = function() {
+/*DEMO*/
+anime({
+  targets: '.loop',
+  translateX: 270,
+  loop: 3,
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.loop-infinity',
+  translateX: 270,
+  loop: true,
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.loop-reverse',
+  translateX: 270,
+  loop: 3,
+  direction: 'reverse',
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.loop-reverse-infinity',
+  translateX: 270,
+  direction: 'reverse',
+  loop: true,
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.loop-alternate',
+  translateX: 270,
+  loop: 3,
+  direction: 'alternate',
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.loop-alternate-infinity',
+  translateX: 270,
+  direction: 'alternate',
+  loop: true,
+  easing: 'easeInOutSine'
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+<div id="autoplay" class="demo">
+  <h3 class="demo-title">Autoplay</h3>
+  <div class="demo-description">
+    <p>
+      Defines if the animation should automatically starts or not.
+    </p>
+    <table>
+      <thead>
+        <td>Accepts</td>
+        <td>Infos</td>
+      </thead>
+      <tr>
+        <td><code>true</code></td>
+        <td>Automatically starts the animation</td>
+      </tr>
+      <tr>
+        <td><code>false</code></td>
+        <td>Animation is paused by default</td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content">
+    <div class="line">
+      <div class="label">autoplay: true</div>
+      <div class="square shadow"></div>
+      <div class="square el autoplay-true"></div>
+    </div>
+    <div class="line">
+      <div class="label">autoplay: false</div>
+      <div class="square shadow"></div>
+      <div class="square el autoplay-false"></div>
+    </div>
+  </div>
+  <script>var autoplay = function() {
+/*DEMO*/
+anime({
+  targets: '.autoplay-true',
+  translateX: 250,
+  autoplay: true,
+  easing: 'easeInOutSine'
+});
+
+anime({
+  targets: '.autoplay-false',
+  translateX: 250,
+  autoplay: false,
+  easing: 'easeInOutSine'
+});
+/*DEMO*/
+}
+  </script>
+</div>
+
+</article>
+<!-- -->
+
+<!-- VALUES -->
+<article id="values" class="color-values">
+<header>
+  <h2 class="demos-title">Values</h2>
+</header>
+
+<div id="unitlessValue" class="demo">
+  <h3 class="demo-title">Unitless</h3>
+  <div class="demo-description">
+    <p>
+      If the original value has a unit, it will be automatically added to the animated value.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Number</td>
+        <td><code>translateX: 250</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content unitless-values-demo">
+    <div class="circle shadow"></div>
+    <div class="circle el"></div>
+  </div>
+  <script>var unitlessValue = function() {
+/*DEMO*/
+anime({
+  targets: '.unitless-values-demo .el',
+  translateX: 250, // -> '250px'
+  rotate: 540 // -> '540deg'
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="specificUnitValue" class="demo">
+  <h3 class="demo-title">Specific unit</h3>
+  <div class="demo-description">
+    <p>
+      Forces the animation to use a certain unit and will automatically convert the initial target value.
+    </p>
+    <p class="bubble warning">
+      Conversion accuracy can vary depending of the unit used.<br>
+      You can also define the initial value of the animation directly using an array, see the <a href="#fromToValues" class="color-values">from to values</a> section.
+    </p>
+    <table>
+      <thead>
+        <td>Type</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>String</td>
+        <td><code>width: '100%'</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content specific-unit-values-demo">
+    <div class="square shadow"></div>
+    <div class="square el"></div>
+  </div>
+  <script>var specificUnitValue = function() {
+/*DEMO*/
+anime({
+  targets: '.specific-unit-values-demo .el',
+  width: '100%', // -> from '28px' to '100%',
+  easing: 'easeInOutQuad',
+  direction: 'alternate',
+  loop: true
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="relativeValues" class="demo">
+  <h3 class="demo-title">Relative</h3>
+  <div class="demo-description">
+    <p>
+      Adds, substracts or multiplies the original value.
+    </p>
+    <table>
+      <thead>
+        <td>Accepts</td>
+        <td>Effect</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td><code>'+='</code></td>
+        <td>Add</td>
+        <td><code>'+=100'</code></td>
+      </tr>
+      <tr>
+        <td><code>'-='</code></td>
+        <td>Substract</td>
+        <td><code>'-=2turn'</code></td>
+      </tr>
+      <tr>
+        <td><code>'*='</code></td>
+        <td>Multiply</td>
+        <td><code>'*=10'</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="demo-content">
+    <div class="circle shadow"></div>
+    <div class="circle el relative-values"></div>
+  </div>
+  <script>var relativeValues = function() {
+/*DEMO*/
+var relativeEl = document.querySelector('.el.relative-values');
+relativeEl.style.transform = 'translateX(100px)';
+
+anime({
+  targets: '.el.relative-values',
+  translateX: {
+    value: '*=2.5', // 100px * 2.5 = '250px'
+    duration: 1000
+  },
+  width: {
+    value: '-=20px', // 28 - 20 = '8px'
+    duration: 1800,
+    easing: 'easeInOutSine'
+  },
+  rotate: {
+    value: '+=2turn', // 0 + 2 = '2turn'
+    duration: 1800,
+    easing: 'easeInOutSine'
+  },
+  direction: 'alternate'
+});
+/*DEMO*/
+}
+  </script>
+
+</div>
+
+<div id="colors" class="demo">
+  <h3 class="demo-title">Colors</h3>
+  <div class="demo-description">
+    <p>
+      <i>anime.js</i> accepts and converts Hexadecimal, RGB, RGBA, HSL, and HSLA color values.
+    </p>
+    <p class="bubble warning">
+      CSS color codes ( e.g. : <code>'red', 'yellow', 'aqua'</code> ) are not supported.
+    </p>
+    <table>
+      <thead>
+        <td>Accepts</td>
+        <td>Example</td>
+      </thead>
+      <tr>
+        <td>Hexadecimal</td>
+        <td><code>'#FFF'</code> or <code>'#FFFFFF'</code></td>
+      </tr>
+      <tr>
+        <td>RGB</td>
+        <td><co
