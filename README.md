@@ -86,8 +86,8 @@ animejs.com/
 
 ```bash
 # Clone the repository
-git clone https://github.com/tanmoy44717/animejs-v4-showcase.git
-cd animejs-v4-showcase
+git clone https://github.com/tanmoy44717/animejs.com-clone.git
+cd animejs.com-clone
 
 # Start the local server
 python -m http.server 8000
